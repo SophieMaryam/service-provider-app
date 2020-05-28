@@ -50,13 +50,7 @@
 import Vue from "vue";
 import UploadImage from "../components/UploadImage.vue";
 import SkillLevelCounter from "../components/SkillLevelCounter.vue";
-import {
-  minLength,
-  required,
-  numeric,
-  minValue,
-  maxValue
-} from "vuelidate/lib/validators";
+import { minLength, required, numeric } from "vuelidate/lib/validators";
 
 export default {
   name: "SettingsPage",
@@ -108,14 +102,6 @@ export default {
       userAge: {
         required,
         numeric
-      }
-    },
-    skills: {
-      $each: {
-        level: {
-          minVal: minValue(1),
-          maxVal: maxValue(10)
-        }
       }
     }
   }
