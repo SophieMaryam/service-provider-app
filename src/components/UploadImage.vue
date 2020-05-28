@@ -30,8 +30,8 @@ export default {
   methods: {
     onChanged() {
       if (!this.$refs.pictureInput.file) {
-         throw new Error("Old browser. No support for Filereader API");
-      } 
+        throw new Error("Old browser. No support for Filereader API");
+      }
       return this.image = this.$refs.pictureInput.file;
     },
     onRemoved() {
@@ -40,7 +40,7 @@ export default {
     attemptUpload(image) {
       if (!image) {
         throw new Error("FileReader API not supported");
-      } 
+      }
       return this.image = image;
     }
   }
@@ -51,5 +51,4 @@ export default {
 .display {
   display: inline-flex;
 }
-
 </style>
