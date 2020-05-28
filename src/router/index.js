@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import HomePage from "../views/HomePage.vue";
 import SettingsPage from "../views/SettingsPage.vue";
 import JobPostings from "../views/JobPostings.vue";
+import ClientReqComplete from "../views/ClientReqComplete.vue";
 
 Vue.use(VueRouter);
 
@@ -21,6 +22,11 @@ const routes = [
     path: "/jobPostings",
     name: "JobPostings",
     component: JobPostings
+  },
+  {
+    path: "/requestsComplete",
+    name: "ClientReqComplete",
+    component: ClientReqComplete
   }
 ];
 
