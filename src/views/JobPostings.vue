@@ -47,7 +47,12 @@ export default {
       this.jobPostings = await getAllJobPostings();
     },
     onSubmit() {
-      console.log(test)
+      if (this.selected.length > 0) {
+        this.$router.push({ name: "ClientReqComplete" });
+      } else {
+        alert("Accept at least one request before submitting!");
+        throw new Error("You did not select any requests");
+      }
     }
   }
 };
