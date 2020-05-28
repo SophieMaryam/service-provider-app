@@ -10,6 +10,7 @@
         :key="index"
         :jobPosting="jobPosting"
         :index="index"
+        :selected="selected"
       />
       <b-button
         class="mb-4 colour"
@@ -31,7 +32,8 @@ export default {
   },
   data() {
     return {
-      jobPostings: []
+      jobPostings: [],
+      selected: []
     };
   },
   mounted() {
@@ -43,6 +45,9 @@ export default {
   methods: {
     async getJobPostings() {
       this.jobPostings = await getAllJobPostings();
+    },
+    onSubmit() {
+      console.log(test)
     }
   }
 };
