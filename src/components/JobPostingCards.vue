@@ -24,7 +24,7 @@ export default {
     return {
       name: "",
       levels: [],
-      clientLevelRequired: 10,
+      clientLevelRequired: "",
     };
   },
   computed: {
@@ -40,6 +40,13 @@ export default {
         selectedSkills[Math.floor(Math.random() * selectedSkills.length)];
       this.name = selectAtRandom.name;
       this.setLevel(selectAtRandom.level);
+    },
+    setLevel(level) {
+      this.levels.push(level, level - 1);
+      const selectAtRandom = this.levels[
+        Math.floor(Math.random() * this.levels.length)
+      ];
+      return (this.clientLevelRequired = selectAtRandom);
     }
   }
 };
