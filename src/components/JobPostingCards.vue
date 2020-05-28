@@ -32,7 +32,8 @@ export default {
     return {
       name: "",
       levels: [],
-      clientLevelRequired: ""
+      clientLevelRequired: "",
+      isDuplicateName: null
     };
   },
   computed: {
@@ -57,8 +58,9 @@ export default {
       return (this.clientLevelRequired = selectAtRandom);
     },
     onChange(jobPosting) {
+      this.checkDuplicateCompanyName(jobPosting);
 
-      if (!jobPosting.selected) {
+      if (!jobPosting.selected && !this.isDuplicateName) {
         this.selected.push({
           jobPosting: jobPosting.companyName,
           startDate: jobPosting.startDate
@@ -68,6 +70,11 @@ export default {
       } else {
         throw new Error("Error occuring");
       }
+    },
+    checkDuplicateCompanyName(jobPosting) {
+      return (this.duplicateName = this.selected.filter(
+        clientReq => clientReq.jobPosting == jobPosting.companyName
+      ));
     },
     removeSelectedRequest(jobPosting) {
       this.selected.splice(
