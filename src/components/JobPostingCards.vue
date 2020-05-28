@@ -59,6 +59,7 @@ export default {
     },
     onChange(jobPosting) {
       this.checkDuplicateCompanyName(jobPosting);
+      this.checkDuplicateStartDate(jobPosting);
 
       if (!jobPosting.selected && !this.isDuplicateName) {
         this.selected.push({
@@ -75,6 +76,18 @@ export default {
       return (this.duplicateName = this.selected.filter(
         clientReq => clientReq.jobPosting == jobPosting.companyName
       ));
+    },
+    checkDuplicateStartDate(jobPosting) {
+      return (this.duplicateStartDate = this.selected.filter(clientReq => {
+        if (
+          clientReq.startDate == jobPosting.startDate &&
+          !jobPosting.selected
+        ) {
+          alert(
+            "Cannot choose requests with the same date. Please unselect one."
+          );
+        }
+      }));
     },
     removeSelectedRequest(jobPosting) {
       this.selected.splice(
