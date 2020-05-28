@@ -87,7 +87,7 @@ export default {
   },
   methods: {
     onSubmit(userDetails) {
-      const selectedSkills = this.skills.filter(skill => skill.level > 1);
+      const selectedSkills = this.skills.filter(skill => skill.level >= 1);
       this.$store.commit("UPDATE_USER_DATA", { userDetails });
       this.$store.commit("UPDATE_USER_SKILLS", selectedSkills);
       this.$router.push({ name: "JobPostings" });
