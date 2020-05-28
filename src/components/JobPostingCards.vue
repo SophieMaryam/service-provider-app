@@ -14,6 +14,7 @@
         <b-form-checkbox
           :id="'toggle-' + index"
           v-model="jobPosting.selected"
+          @change="onChange(jobPosting)"
           :name="'checkbox-1' + index"
         >
           Select Request
@@ -54,6 +55,18 @@ export default {
         Math.floor(Math.random() * this.levels.length)
       ];
       return (this.clientLevelRequired = selectAtRandom);
+    },
+    onChange(jobPosting) {
+      if (!jobPosting.selected) {
+        this.selected.push({
+          jobPosting: jobPosting.companyName,
+          startDate: jobPosting.startDate
+        });
+      } else if (jobPosting.selected) {
+        console.log("will splice")
+      } else {
+        throw new Error("Error occuring");
+      }
     }
   }
 };
