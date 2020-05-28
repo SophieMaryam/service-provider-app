@@ -57,16 +57,25 @@ export default {
       return (this.clientLevelRequired = selectAtRandom);
     },
     onChange(jobPosting) {
+
       if (!jobPosting.selected) {
         this.selected.push({
           jobPosting: jobPosting.companyName,
           startDate: jobPosting.startDate
         });
       } else if (jobPosting.selected) {
-        console.log("will splice")
+        this.removeSelectedRequest(jobPosting);
       } else {
         throw new Error("Error occuring");
       }
+    },
+    removeSelectedRequest(jobPosting) {
+      this.selected.splice(
+        this.selected.findIndex(
+          clientReq => clientReq.jobPosting === jobPosting.companyName
+        ),
+        1
+      );
     }
   }
 };
