@@ -24,13 +24,19 @@
         <b-form-checkbox-group
           id="checkbox-group-1"
           class="d-flex"
-          v-for="(skill) in skills"
+          v-for="(skill, index) in skills"
           :key="skill.name"
           v-model="selected"
         >
           <b-form-checkbox :value="skill.name">
             {{ skill.name }}
           </b-form-checkbox>
+          <SkillLevelCounter
+            v-if="selected.includes(skill.name)"
+            :skill="skill"
+            track-by="index"
+            @update="updateLevelCount(index, $event)"
+          />
         </b-form-checkbox-group>
       </b-form-group>
       <b-button :disabled="$v.$invalid" type="submit" variant="primary"
@@ -43,16 +49,20 @@
 <script>
 import Vue from "vue";
 import UploadImage from "../components/UploadImage.vue";
+import SkillLevelCounter from "../components/SkillLevelCounter.vue";
 import {
   minLength,
   required,
   numeric,
+  minValue,
+  maxValue
 } from "vuelidate/lib/validators";
 
 export default {
   name: "SettingsPage",
   components: {
     UploadImage,
+    SkillLevelCounter
   },
   data() {
     return {
@@ -80,6 +90,10 @@ export default {
       const selectedSkills = this.skills.filter(skill => skill.level > 1);
       this.$store.commit("UPDATE_USER_DATA", { userDetails });
       this.$store.commit("UPDATE_USER_SKILLS", selectedSkills);
+      this.$router.push({ name: "JobPostings" });
+    },
+    updateLevelCount(index, level) {
+      Vue.set(this.skills[index], "level", level);
     }
   },
   validations: {
@@ -94,6 +108,14 @@ export default {
       userAge: {
         required,
         numeric
+      }
+    },
+    skills: {
+      $each: {
+        level: {
+          minVal: minValue(1),
+          maxVal: maxValue(10)
+        }
       }
     }
   }

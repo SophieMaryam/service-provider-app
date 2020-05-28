@@ -7,13 +7,17 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     userName: "",
-    userAge: ""
+    userAge: "",
+    skills: {}
   },
   mutations: {
     UPDATE_USER_DATA(state, payload) {
       const { userName, userAge } = payload.userDetails;
       state.userAge = userAge;
       state.userName = userName;
+    },
+    UPDATE_USER_SKILLS(state, payload) {
+      state.skills = payload;
     }
   },
   plugins: [
