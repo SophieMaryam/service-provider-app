@@ -32,7 +32,7 @@ export default {
       if (!this.$refs.pictureInput.file) {
         throw new Error("Old browser. No support for Filereader API");
       }
-      return this.image = this.$refs.pictureInput.file;
+      return (this.image = this.$refs.pictureInput.file);
     },
     onRemoved() {
       this.image = "";
@@ -41,7 +41,7 @@ export default {
       if (!image) {
         throw new Error("FileReader API not supported");
       }
-      return this.image = image;
+      return (this.image = image);
     }
   }
 };
