@@ -16,6 +16,7 @@ export default new Vuex.Store({
       const { userName, userAge } = payload.userDetails;
       state.userAge = userAge;
       state.userName = userName;
+      state.displayClients = true;
     },
     UPDATE_USER_SKILLS(state, payload) {
       state.skills = payload;
