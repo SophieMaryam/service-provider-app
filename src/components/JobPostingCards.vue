@@ -51,7 +51,7 @@ export default {
       this.setLevel(selectAtRandom.level);
     },
     setLevel(level) {
-      this.levels.push(level, level - 1);
+      level > 1 ? this.levels.push(level, level - 1) : this.levels.push(level);
       const selectAtRandom = this.levels[
         Math.floor(Math.random() * this.levels.length)
       ];
@@ -73,7 +73,7 @@ export default {
       }
     },
     checkDuplicateCompanyName(jobPosting) {
-      return (this.duplicateName = this.selected.filter(
+      return (this.isDuplicateName = this.selected.filter(
         clientReq => clientReq.jobPosting == jobPosting.companyName
       ));
     },
