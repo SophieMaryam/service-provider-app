@@ -17,6 +17,9 @@
           placeholder="Enter Age"
         />
       </b-form-group>
+
+      <UploadImage />
+
       <b-button :disabled="$v.$invalid" type="submit" variant="primary"
         >Submit</b-button
       >
@@ -26,6 +29,7 @@
 
 <script>
 import Vue from "vue";
+import UploadImage from "../components/UploadImage.vue";
 import {
   required,
   numeric,
@@ -33,7 +37,9 @@ import {
 
 export default {
   name: "SettingsPage",
-
+  components: {
+    UploadImage,
+  },
   data() {
     return {
       userDetails: {
@@ -44,6 +50,7 @@ export default {
   },
   methods: {
     onSubmit(userDetails) {
+
       this.$store.commit("UPDATE_USER_DATA", { userDetails });
     },
   },
