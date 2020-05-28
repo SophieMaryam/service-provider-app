@@ -17,27 +17,45 @@
           placeholder="Enter Age"
         />
       </b-form-group>
-      <b-button type="submit" variant="primary"
-        >Submit</b-button>
+      <b-button :disabled="$v.$invalid" type="submit" variant="primary"
+        >Submit</b-button
+      >
     </b-form>
   </div>
 </template>
 
 <script>
 import Vue from "vue";
+import {
+  required,
+  numeric,
+} from "vuelidate/lib/validators";
+
 export default {
   name: "SettingsPage",
+
   data() {
     return {
       userDetails: {
         userName: "",
         userAge: null,
-      },
-    }
+      }
+    };
   },
   methods: {
     onSubmit(userDetails) {
-      console.log(userDetails)
+      this.$store.commit("UPDATE_USER_DATA", { userDetails });
+    },
+  },
+  validations: {
+    userDetails: {
+      userName: {
+        required
+      },
+      userAge: {
+        required,
+        numeric
+      }
     }
   }
 };
