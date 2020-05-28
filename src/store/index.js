@@ -8,7 +8,8 @@ export default new Vuex.Store({
   state: {
     userName: "",
     userAge: "",
-    skills: {}
+    skills: {},
+    displayClients: false
   },
   mutations: {
     UPDATE_USER_DATA(state, payload) {
