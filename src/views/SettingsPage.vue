@@ -20,6 +20,19 @@
 
       <UploadImage />
 
+      <b-form-group label="Skills (minimum 3):">
+        <b-form-checkbox-group
+          id="checkbox-group-1"
+          class="d-flex"
+          v-for="(skill) in skills"
+          :key="skill.name"
+          v-model="selected"
+        >
+          <b-form-checkbox :value="skill.name">
+            {{ skill.name }}
+          </b-form-checkbox>
+        </b-form-checkbox-group>
+      </b-form-group>
       <b-button :disabled="$v.$invalid" type="submit" variant="primary"
         >Submit</b-button
       >
@@ -31,6 +44,7 @@
 import Vue from "vue";
 import UploadImage from "../components/UploadImage.vue";
 import {
+  minLength,
   required,
   numeric,
 } from "vuelidate/lib/validators";
@@ -44,17 +58,35 @@ export default {
     return {
       userDetails: {
         userName: "",
-        userAge: null,
-      }
+        userAge: null
+      },
+      selected: [],
+      skills: [
+        { name: "Python", level: null },
+        { name: "JavaScript", level: null },
+        { name: "C++", level: null },
+        { name: "Swift", level: null },
+        { name: "HTML", level: null },
+        { name: "Ruby", level: null },
+        { name: "C*", level: null },
+        { name: "Java", level: null },
+        { name: "PHP", level: null },
+        { name: "GoLang", level: null }
+      ]
     };
   },
   methods: {
     onSubmit(userDetails) {
-
+      const selectedSkills = this.skills.filter(skill => skill.level > 1);
       this.$store.commit("UPDATE_USER_DATA", { userDetails });
-    },
+      this.$store.commit("UPDATE_USER_SKILLS", selectedSkills);
+    }
   },
   validations: {
+    selected: {
+      minLen: minLength(3),
+      required
+    },
     userDetails: {
       userName: {
         required
