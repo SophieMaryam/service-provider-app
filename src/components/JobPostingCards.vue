@@ -11,6 +11,13 @@
         <b-card-text
           >Skills: {{ name }} | Level: {{ clientLevelRequired }}
         </b-card-text>
+        <b-form-checkbox
+          :id="'toggle-' + index"
+          v-model="jobPosting.selected"
+          :name="'checkbox-1' + index"
+        >
+          Select Request
+        </b-form-checkbox>
       </b-card>
     </b-card-group>
   </div>
@@ -24,7 +31,7 @@ export default {
     return {
       name: "",
       levels: [],
-      clientLevelRequired: "",
+      clientLevelRequired: ""
     };
   },
   computed: {
