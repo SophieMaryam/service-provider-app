@@ -1,8 +1,16 @@
 <template>
   <div class="centered">
-    <b-card title="User Data" class="width col-md-12">
+    <b-card title="Profile Information" class="width col-md-12">
+      <img
+        v-if="image == ''"
+        src="../assets/default-image.png"
+        class="mb-2"
+        alt="Default image"
+        height="150"
+      />
+      <img v-else :src="image" alt="Profile picture" height="150" />
       <b-card-text class="text-left">
-        <p>Go to Settings to add your details in!</p>
+        <p class="mt-3">Updating your profile can be found in Settings:</p>
         <h5 class="user-name">
           <span class="font-weight-bold">Name:</span> {{ userName }}
         </h5>
@@ -27,7 +35,7 @@ import { mapState } from "vuex";
 export default {
   name: "HomePage",
   computed: {
-    ...mapState(["userName", "userAge", "skills"])
+    ...mapState(["userName", "userAge", "skills", "image"])
   }
 };
 </script>
