@@ -9,7 +9,8 @@ export default new Vuex.Store({
     userName: "",
     userAge: "",
     skills: {},
-    displayClients: false
+    displayClients: false,
+    image: "",
   },
   mutations: {
     UPDATE_USER_DATA(state, payload) {
@@ -20,11 +21,14 @@ export default new Vuex.Store({
     },
     UPDATE_USER_SKILLS(state, payload) {
       state.skills = payload;
+    },
+    UPLOAD_IMAGE(state, payload) {
+      state.image = payload;
     }
   },
   plugins: [
     createPersistedState({
-      storage: window.sessionStorage
+      storage: window.sessionStorage,
     })
   ]
 });
