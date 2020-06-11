@@ -27,12 +27,15 @@ const routes = [
     path: "/requestsComplete",
     name: "ClientReqComplete",
     component: ClientReqComplete
+  },
+  {
+    path: "*",
+    redirect: "/"
   }
 ];
 
 const router = new VueRouter({
   mode: "history",
-  base: process.env.BASE_URL,
   routes
 });
 
