@@ -2,6 +2,21 @@
   <div class="container">
     <h1 class="text-center">Update Your User Details and Skills:</h1>
     <b-form @submit.prevent="onSubmit(userDetails)" class="text-left">
+      <b-form-group class="width">
+        <img
+          v-if="image === null"
+          src="../assets/default-image.png"
+          alt="Default Image"
+          class="mt-4 mb-3"
+          height="150"
+        />
+        <img v-else :src="imageUrl" height="150" alt="Profle Image" />
+        <p>Upload image:</p>
+        <b-form-file
+          accept="image/*"
+          @change="onFilePicked"
+        ></b-form-file>
+      </b-form-group>
       <b-form-group class="width" label="Your Name:" label-for="input-1">
         <b-form-input
           id="userName"
@@ -18,7 +33,14 @@
         />
       </b-form-group>
 
-      <UploadImage />
+      <!-- <b-button class="primary" @click="onPickFile"> Upload Image </b-button> -->
+      <!-- <input
+        type="file"
+        style="display: none"
+        ref="fileInput"
+        accept="image"
+        @change="onFilePicked"
+      /> -->
 
       <b-form-group label="Skills (minimum 3):">
         <b-form-checkbox-group
@@ -39,7 +61,11 @@
           />
         </b-form-checkbox-group>
       </b-form-group>
-      <b-button :disabled="$v.$invalid" type="submit" variant="primary"
+      <b-button 
+        class="mb-5"
+        :disabled="$v.$invalid" 
+        type="submit" 
+        variant="primary" 
         >Submit</b-button
       >
     </b-form>
@@ -48,18 +74,19 @@
 
 <script>
 import Vue from "vue";
-import UploadImage from "../components/UploadImage.vue";
 import SkillLevelCounter from "../components/SkillLevelCounter.vue";
 import { minLength, required, numeric } from "vuelidate/lib/validators";
+import { uploadImage } from "../firebase";
 
 export default {
   name: "SettingsPage",
   components: {
-    UploadImage,
     SkillLevelCounter
   },
   data() {
     return {
+      imageUrl: "",
+      image: null,
       userDetails: {
         userName: "",
         userAge: null
@@ -80,30 +107,83 @@ export default {
     };
   },
   methods: {
-    onSubmit(userDetails) {
+    async onSubmit(userDetails) {
       const selectedSkills = this.skills.filter(skill => skill.level >= 1);
-      this.$store.commit("UPDATE_USER_DATA", { userDetails });
-      this.$store.commit("UPDATE_USER_SKILLS", selectedSkills);
-      this.$router.push({ name: "JobPostings" });
+      if (this.checkSkillLevel()) {
+        return alert("Please add level to your skills!")
+      } else {
+        this.$store.commit("UPDATE_USER_DATA", { userDetails });
+        this.$store.commit("UPDATE_USER_SKILLS", selectedSkills);
+        await uploadImage(this.image);
+        this.$router.push({ name: "JobPostings" });
+      }
+    
+    },
+    checkSkillLevel(){
+      return this.skills.find(skill => {
+        if(this.selected.includes(skill.name) && skill.level === null) {
+          return true;
+        }
+      })
+
     },
     updateLevelCount(index, level) {
       Vue.set(this.skills[index], "level", level);
-    }
-  },
-  validations: {
-    selected: {
-      minLen: minLength(3),
-      required
     },
-    userDetails: {
-      userName: {
+    // onPickFile() {
+    // ref="fileInput"
+    //   this.$refs.fileInput.click();
+    // },
+    onFilePicked(event) {
+      const files = event.target.files;
+      let fileName = files[0].name;
+      if (fileName.lastIndexOf(".") <= 0) {
+        return alert("Please add a valid file!");
+      }
+      const fileReader = new FileReader();
+      fileReader.addEventListener("load", () => {
+        this.imageUrl = fileReader.result;
+      });
+      fileReader.readAsDataURL(files[0]);
+      this.image = files[0];
+    },
+  },
+  validations() {
+    return {
+      selected: {
+        minLen: minLength(3),
         required
       },
-      userAge: {
-        required,
-        numeric
-      }
-    }
+      userDetails: {
+        userName: {
+          required
+        },
+        userAge: {
+          required,
+          numeric
+        }
+      },
+      image: {
+        uniqueImg: val => {
+          return new Promise(resolve => {
+            resolve(val.level !== null);
+          });
+        }
+      },
+      // skills: {
+      //   $each: {
+      //     level: {
+      //       uniqueNum: num => {
+      //         return new Promise(resolve => {
+      //           if(num > 0) {
+      //             resolve(true);
+      //           }
+      //         });
+      //       }
+      //     }
+      //   }
+      // }
+    };
   }
 };
 </script>
